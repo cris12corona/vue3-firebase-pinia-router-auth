@@ -83,24 +83,24 @@ const beforeUpload = (file) => {
 
   const handleChange = (info) => {
 
-    if (info.file.status !== 'uploading'){
-    //console.log(info.file)
+    // if (info.file.status !== 'uploading'){
+    // //console.log(info.file)
 
-        const isJpgORpng = info.file.type === 'image/jpeg' 
-        || info.file.type === 'image/png'
+    //     const isJpgORpng = info.file.type === 'image/jpeg' 
+    //     || info.file.type === 'image/png'
 
-        if (!isJpgORpng){
-            message.error('Solo imagenes png o jpg')
-            handleRemove(info.file)
-            return
-        }
-        const isLt2M = info.file.size / 1024 / 1024 < 2
-        if(!isLt2M){
-            message.error('Maximo 2MB')
-            handleRemove(info.file)
-            return
-        }
-    }  
+    //     if (!isJpgORpng){
+    //         message.error('Solo imagenes png o jpg')
+    //         handleRemove(info.file)
+    //         return
+    //     }
+    //     const isLt2M = info.file.size / 1024 / 1024 < 2
+    //     if(!isLt2M){
+    //         message.error('Maximo 2MB')
+    //         handleRemove(info.file)
+    //         return
+    //     }
+    // }  
 
   let resFileList = [...info.fileList];
 
@@ -121,22 +121,12 @@ const beforeUpload = (file) => {
 };
 
 const onFinish = async() => {  
-  const error = await userStore.updateUser(userStore.userData.displayName)
+  const error = await userStore.updateUser(userStore.userData.displayName, fileList.value[0])
        
-    
-    if(fileList.value[0]){
-       await userStore.updateImg(fileList.value[0])
-        if (error){
-            return message.error("Problemas al subir tu imagen, intentelo mas tarde")
-        }
-        return message.success('Se actualizo tu imagen')
-        
-    }
-  
-
     if (!error){
         return message.success('Se actualizo tu informacion displayname')
     }
+    return message.error('No se actualizo tu imagen error en el servidor')
     
   }
 </script>

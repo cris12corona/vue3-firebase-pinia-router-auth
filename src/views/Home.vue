@@ -37,6 +37,7 @@
         <a-button
         type="primary" 
         @click="router.push(`/Editar/${item.id}`)">Editar</a-button>
+        <a-button @click="copiarPortapapeles(item.id)">Copiar</a-button>
         </a-space>
         
       </template>
@@ -79,5 +80,34 @@ const confirm = async (id) => {
 
 const cancel = () => {
   message.error('No se elimino')
+}
+
+const copiarPortapapeles = async (id) => {
+    console.log(id)
+    if(!navigator.clipboard){
+      return message.error('No se pudo copir al portapapeles')
+    }
+
+    const path = `${window.location.origin}/${id}`
+    //console.log(path)
+
+    const err = await navigator.clipboard.writeText(path)
+    //console.log(err)
+
+    if(err){
+      message.error("No se pudo copiar al portapapeles")
+    }else{
+      message.success("Copiado exitosamente")
+    }
+
+    // navigator.clipboard
+    //   .writeText(path)
+    //   .then(() => {
+    //     message.success("Copiado exitosamente")
+    //   })
+
+    //   .catch(err => {
+    //     message.success("No se pudo copiar al portapapeles")
+    //   })
 }
 </script>
